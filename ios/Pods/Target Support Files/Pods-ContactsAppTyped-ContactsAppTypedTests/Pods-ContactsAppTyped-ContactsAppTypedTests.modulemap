@@ -1,0 +1,6 @@
+module Pods_ContactsAppTyped_ContactsAppTypedTests {
+  umbrella header "Pods-ContactsAppTyped-ContactsAppTypedTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
