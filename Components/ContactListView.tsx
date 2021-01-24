@@ -2,71 +2,33 @@
  *  File: ContactListView.tsx
     Author: Amay Kataria
     Date: 01/23/2021
-    Description: Shows the list of contacts loaded by the app. 
+    Description: Shows a list of contacts loaded by the app. 
 */
 
 import React from 'react';
-import {
-    Button,
-    StyleSheet,
-    View,
-    Text,
-    ScrollView
-} from 'react-native';
+import { Button, StyleSheet, View, Text} from 'react-native';
+import { ContactsScreenProps, ContactListViewProps, ContactListViewState } from './Types'
 
-import {
-    Colors,
-  } from 'react-native/Libraries/NewAppScreen';
-
-interface ContactListViewProps {
-    name: string
+// Navigator screen. 
+export function ContactsScreen(navProps : ContactsScreenProps) {
+    return (
+        <ContactListView 
+        name={"Bablu Name"} 
+        navProps={navProps} 
+        />
+    );
 }
 
-interface ContactListViewState {
-    score: number
-}
-
+// Component styles. 
 const styles = StyleSheet.create({
-    scrollView: {
-      backgroundColor: Colors.lighter,
-    },
-    engine: {
-      position: 'absolute',
-      right: 0,
-    },
     body: {
-      backgroundColor: Colors.white,
-    },
-    sectionContainer: {
-      marginTop: 32,
-      paddingHorizontal: 24,
-    },
-    sectionTitle: {
-      fontSize: 24,
-      fontWeight: '600',
-      color: Colors.black,
-    },
-    sectionDescription: {
-      marginTop: 8,
-      fontSize: 18,
-      fontWeight: '400',
-      color: Colors.dark,
-    },
-    highlight: {
-      fontWeight: '700',
-    },
-    footer: {
-      color: Colors.dark,
-      fontSize: 12,
-      fontWeight: '600',
-      padding: 4,
-      paddingRight: 12,
-      textAlign: 'right',
-    },
-  });
-  
+        flex: 1,
+        paddingTop: 10
+    }
+});
 
-class ContactListView extends React.Component<ContactListViewProps, ContactListViewState>  {
+// Component class. 
+export class ContactListView extends React.Component<ContactListViewProps, ContactListViewState>  {
     constructor(props: ContactListViewProps) {
         super(props); 
         // Define the state. 
@@ -77,23 +39,20 @@ class ContactListView extends React.Component<ContactListViewProps, ContactListV
 
     render() {
         return (
-            <ScrollView
-                contentInsetAdjustmentBehavior="automatic"
-                style={styles.scrollView}>
-                <View style={styles.body}>
-                    <Text>Hello I am just a simple text to be rendered in here: {this.props.name}</Text>
-                </View>
+            <View style={styles.body}>
+                <Text>Hello I am just a simple text to be rendered in here</Text>
                 <Button
                     title="Press Me"
                     onPress={this.onPress.bind(this)}
                 />
-            </ScrollView>
+            </View>
         ); 
     }
 
+    // Send the information about the contact from here
     onPress = () => {
-        // Kick navigation here. 
+        this.props.navProps.navigation.navigate('Details', { name: 'Lal rai chand new props'});
+        // When navigation, send the selected Contact properties to the next contact. 
     }
 }
 
-export default ContactListView; 

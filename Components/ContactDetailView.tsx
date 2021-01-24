@@ -2,87 +2,37 @@
  *  File: ConactDetailView.tsx
     Author: Amay Kataria
     Date: 01/23/2021
-    Description: Shows 
+    Description: Shows details for a specific contact. 
 */
 
 import React from 'react';
-import {
-    StyleSheet,
-    View,
-    Text,
-    ScrollView
-} from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
+import { ContactDetailViewProps, ContactDetailViewState, ContactDetailsScreenProps } from './Types'
 
-import {
-    Colors,
-  } from 'react-native/Libraries/NewAppScreen';
-
-interface ContactDetailViewProps {
+// Navigator screen. 
+export function ContactDetailsScreen(navProps:  ContactDetailsScreenProps) {
+  return ( <ContactDetailView navProps={navProps} /> );
 }
 
-interface ContactDetailViewState {
-}
-
+// Component style. 
 const styles = StyleSheet.create({
-    scrollView: {
-      backgroundColor: Colors.lighter,
-    },
-    engine: {
-      position: 'absolute',
-      right: 0,
-    },
-    body: {
-      backgroundColor: Colors.white,
-    },
-    sectionContainer: {
-      marginTop: 32,
-      paddingHorizontal: 24,
-    },
-    sectionTitle: {
-      fontSize: 24,
-      fontWeight: '600',
-      color: Colors.black,
-    },
-    sectionDescription: {
-      marginTop: 8,
-      fontSize: 18,
-      fontWeight: '400',
-      color: Colors.dark,
-    },
-    highlight: {
-      fontWeight: '700',
-    },
-    footer: {
-      color: Colors.dark,
-      fontSize: 12,
-      fontWeight: '600',
-      padding: 4,
-      paddingRight: 12,
-      textAlign: 'right',
-    },
-  });
-  
+  body: { 
 
-class ContactDetailView extends React.Component<ContactDetailView, ContactDetailView>  {
-    constructor(props: ContactDetailView) {
+  }
+});
+
+// Component class. 
+export class ContactDetailView extends React.Component<ContactDetailViewProps, ContactDetailViewState>  {
+    constructor(props: ContactDetailViewProps) {
         super(props); 
         // Define the state. 
-        this.state = {
-
-        }; 
     }
 
     render() {
         return (
-            <ScrollView
-                contentInsetAdjustmentBehavior="automatic"
-                style={styles.scrollView}>
-                <View style={styles.body}>
-                    <Text>I am Contact Detail View</Text>
-                </View>
-            </ScrollView>
+            <View style={styles.body}>
+                <Text>I am Contact Detail View: {this.props.navProps.route.params.name}</Text>
+            </View>
         ); 
     }
 }
-
-export default ContactListView; 
