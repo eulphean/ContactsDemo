@@ -7,12 +7,7 @@
 
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { ContactDetailViewProps, ContactDetailViewState, ContactDetailsScreenProps } from './Types'
-
-// Navigator screen. 
-export function ContactDetailsScreen(navProps:  ContactDetailsScreenProps) {
-  return ( <ContactDetailView navProps={navProps} /> );
-}
+import { ContactDetailsScreenProps } from '../CommonTypes'
 
 // Component style. 
 const styles = StyleSheet.create({
@@ -20,6 +15,10 @@ const styles = StyleSheet.create({
 
   }
 });
+
+// ContactDetailView types. 
+export type ContactDetailViewProps = { navProps: ContactDetailsScreenProps }
+export type ContactDetailViewState = { }
 
 // Component class. 
 export class ContactDetailView extends React.Component<ContactDetailViewProps, ContactDetailViewState>  {
@@ -35,4 +34,9 @@ export class ContactDetailView extends React.Component<ContactDetailViewProps, C
             </View>
         ); 
     }
+}
+
+// Navigator screen. 
+export function ContactDetailsScreen(navProps:  ContactDetailsScreenProps) {
+    return ( <ContactDetailView navProps={navProps} /> );
 }
