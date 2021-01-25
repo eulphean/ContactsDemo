@@ -9,8 +9,8 @@ import React from 'react';
 import { StyleSheet, TouchableHighlight, View, Text, Image, NativeSyntheticEvent, ImageErrorEventData, GestureResponderEvent } from 'react-native';
 import { Padding, FontSize, Colors, ImageSize } from '../Common/Styles'
 import { ContactsScreenProps, ContactInfo } from '../Common/Types'
+import UserIcon from './UserIcon'
 import Favorite from "../Assets/favorite.svg"
-import Unknown from '../Assets/unknown.svg'
 
 // Component style. 
 const styles = StyleSheet.create({
@@ -59,68 +59,33 @@ const styles = StyleSheet.create({
     }
 });
 
-// User image component. 
-type ImageProps = { source : string | undefined, onErrorCbk: (error: NativeSyntheticEvent<ImageErrorEventData>) => void}
-const UserIcon = ({ source, onErrorCbk } : ImageProps ) => {
-    return (     
-        <Image
-            style={styles.userIcon}
-            source={{ uri: source }}
-            onError={onErrorCbk}
-        >
-        </Image>
-    )
-}
-
 // Contact component. 
 type ContactProps = { info: ContactInfo, navigator: ContactsScreenProps }; 
-type ContactState = { failed: boolean }
-class Contact extends React.Component<ContactProps, ContactState>{
-    constructor(props: ContactProps) {
-        super(props); 
-        this.state = {
-            failed: false
-        }; 
-    }
 
-    render() {
-        // Hide Favorite component if the user is not favorite.
-        let favStyle = this.props.info.isFavorite ? styles.favIcon : [styles.favIcon, styles.favIconHide]; 
-        let user = this.state.failed ? 
-            <Unknown width={ ImageSize.medium } height={ ImageSize.medium } /> : 
-            <UserIcon source={this.props.info.smallImage} onErrorCbk={this.handleOnError.bind(this)} />; 
-
-        return (
-            <TouchableHighlight  
-                activeOpacity={1}
-                underlayColor={Colors.light}
-                onPress={this.handleOnPress.bind(this)} >
-                <View style={styles.container}>
-                    { user }
-                    <View style={styles.userData}>
-                        <View style={styles.userInfo}>
-                            <Favorite style={favStyle} width={FontSize.medium} height={FontSize.medium} />
-                            <Text style={styles.userName}>{this.props.info.name}</Text>
-                        </View>
-                        <Text style={styles.userCompany}>{this.props.info.companyName}</Text>
+const Contact = (props: ContactProps) => {
+    let favStyle = props.info.isFavorite ? styles.favIcon : [styles.favIcon, styles.favIconHide]; 
+    
+    return (
+        <TouchableHighlight  
+            activeOpacity={1}
+            underlayColor={Colors.light}
+            onPress={handleOnPress.bind(this)} >
+            <View style={styles.container}>
+                <UserIcon source={props.info.smallImage} name={props.info.name} />
+                <View style={styles.userData}>
+                    <View style={styles.userInfo}>
+                        <Favorite style={favStyle} width={FontSize.medium} height={FontSize.medium} />
+                        <Text style={styles.userName}>{props.info.name}</Text>
                     </View>
+                    <Text style={styles.userCompany}>{props.info.companyName}</Text>
                 </View>
-            </TouchableHighlight>
-        ); 
-    }
+            </View>
+        </TouchableHighlight>
+    ); 
 
-    handleOnError = (e : NativeSyntheticEvent<ImageErrorEventData>) => {
-        console.log("Error loading image for: " + this.props.info.name); 
-        
-        // Load backup image. 
-        this.setState({
-            failed: true
-        });
-    }
-
-    handleOnPress = (e: GestureResponderEvent) => {
+    function handleOnPress (e: GestureResponderEvent) {
         console.log('Hello');
-        this.props.navigator.navigation.navigate('Details', { name: 'Lal rai chand new props'});
+        props.navigator.navigation.navigate('Details', { name: 'Lal rai chand new props'});
     }
 }
 
