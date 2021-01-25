@@ -28,3 +28,10 @@ export const Padding = {
     extraLarge: 25,
     massive: 30
 };
+
+export const ImageSize = {
+    small: 50,
+    medium: 70,
+    large: 90,
+    extraLarge: 110
+}

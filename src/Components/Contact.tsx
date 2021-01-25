@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { StyleSheet, View, Text, Image, NativeSyntheticEvent, ImageErrorEventData } from 'react-native';
-import { Padding, FontSize, Colors } from '../Common/Styles'
+import { Padding, FontSize, Colors, ImageSize } from '../Common/Styles'
 import { ContactInfo } from '../Common/Types'
 import Favorite from "../Assets/favorite.svg"
 import Unknown from '../Assets/unknown.svg'
@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
     },
 
     userIcon: {
-        height: 70,
-        width: 70
+        height: ImageSize.medium,
+        width: ImageSize.medium
     },
 
     userData: {
@@ -87,7 +87,7 @@ class Contact extends React.Component<ContactProps, ContactState>{
         // Hide Favorite component if the user is not favorite.
         let favStyle = this.props.info.isFavorite ? styles.favIcon : [styles.favIcon, styles.favIconHide]; 
         let user = this.state.failed ? 
-            <Unknown width={70} height={70} /> : 
+            <Unknown width={ ImageSize.medium } height={ ImageSize.medium } /> : 
             <UserIcon source={this.props.info.smallImage} onErrorCbk={this.handleOnError.bind(this)} />; 
 
         return (
