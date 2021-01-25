@@ -70,7 +70,7 @@ export class ContactListView extends React.Component<ContactListViewProps, Conta
             <SectionList
                 sections={this.state.contactList}
                 keyExtractor={(item, index) => 'key: ' + index}
-                renderItem={({ item }) => <Contact info={item} />}
+                renderItem={({ item }) => <Contact info={item} navigator={this.props.navProps} />}
                 renderSectionHeader={({ section: { title } }) => <SectionHeader header={title} />}
                 ItemSeparatorComponent={() => <View style={styles.separator}/>}
                 stickySectionHeadersEnabled={false}
@@ -80,7 +80,7 @@ export class ContactListView extends React.Component<ContactListViewProps, Conta
 
     // Send the information about the contact from here
     onPress = () => {
-        this.props.navProps.navigation.navigate('Details', { name: 'Lal rai chand new props'});
+   
         // When navigation, send the selected Contact properties to the next contact. 
     }
 

@@ -6,9 +6,9 @@
 */
 
 import React from 'react';
-import { StyleSheet, View, Text, Image, NativeSyntheticEvent, ImageErrorEventData } from 'react-native';
+import { StyleSheet, TouchableHighlight, View, Text, Image, NativeSyntheticEvent, ImageErrorEventData, GestureResponderEvent } from 'react-native';
 import { Padding, FontSize, Colors, ImageSize } from '../Common/Styles'
-import { ContactInfo } from '../Common/Types'
+import { ContactsScreenProps, ContactInfo } from '../Common/Types'
 import Favorite from "../Assets/favorite.svg"
 import Unknown from '../Assets/unknown.svg'
 
@@ -73,7 +73,7 @@ const UserIcon = ({ source, onErrorCbk } : ImageProps ) => {
 }
 
 // Contact component. 
-type ContactProps = { info: ContactInfo }; 
+type ContactProps = { info: ContactInfo, navigator: ContactsScreenProps }; 
 type ContactState = { failed: boolean }
 class Contact extends React.Component<ContactProps, ContactState>{
     constructor(props: ContactProps) {
@@ -91,16 +91,21 @@ class Contact extends React.Component<ContactProps, ContactState>{
             <UserIcon source={this.props.info.smallImage} onErrorCbk={this.handleOnError.bind(this)} />; 
 
         return (
-            <View style={styles.container}>
-                { user }
-                <View style={styles.userData}>
-                    <View style={styles.userInfo}>
-                        <Favorite style={favStyle} width={FontSize.medium} height={FontSize.medium} />
-                        <Text style={styles.userName}>{this.props.info.name}</Text>
+            <TouchableHighlight  
+                activeOpacity={1}
+                underlayColor={Colors.light}
+                onPress={this.handleOnPress.bind(this)} >
+                <View style={styles.container}>
+                    { user }
+                    <View style={styles.userData}>
+                        <View style={styles.userInfo}>
+                            <Favorite style={favStyle} width={FontSize.medium} height={FontSize.medium} />
+                            <Text style={styles.userName}>{this.props.info.name}</Text>
+                        </View>
+                        <Text style={styles.userCompany}>{this.props.info.companyName}</Text>
                     </View>
-                    <Text style={styles.userCompany}>{this.props.info.companyName}</Text>
                 </View>
-            </View>
+            </TouchableHighlight>
         ); 
     }
 
@@ -111,6 +116,11 @@ class Contact extends React.Component<ContactProps, ContactState>{
         this.setState({
             failed: true
         });
+    }
+
+    handleOnPress = (e: GestureResponderEvent) => {
+        console.log('Hello');
+        this.props.navigator.navigation.navigate('Details', { name: 'Lal rai chand new props'});
     }
 }
 
