@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { ContactDetailsScreenProps } from '../CommonTypes'
+import { ContactDetailsScreenProps } from '../Common/Types'
 
 // Component style. 
 const styles = StyleSheet.create({

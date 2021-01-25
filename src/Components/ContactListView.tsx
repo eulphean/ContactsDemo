@@ -7,8 +7,8 @@
 
 import React from 'react';
 import { SectionList, StyleSheet, Text, View } from 'react-native';
-import { ContactsScreenProps, ContactInfo, ContactListItem } from '../CommonTypes'
-import { Colors, Padding, FontSize } from '../CommonStyles'
+import { ContactsScreenProps, ContactInfo, ContactListItem } from '../Common/Types'
+import { Colors, Padding, FontSize } from '../Common/Styles'
 import Contact from './Contact'
 import * as _ from 'lodash'
 
@@ -109,6 +109,8 @@ export class ContactListView extends React.Component<ContactListViewProps, Conta
                 })
                 .partition((info) => {return info.isFavorite})
                 .value();
+
+            console.log(partition[1]);
 
             // Prepare data for contact list. 
             let data: Array<ContactListItem> = [

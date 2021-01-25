@@ -6,9 +6,11 @@
 */
 
 import React from 'react';
-import { StyleSheet, View, Text, Image } from 'react-native';
-import { Padding, FontSize, Colors } from '../CommonStyles'
-import { ContactInfo } from '../CommonTypes'
+import { StyleSheet, View, Text, Image, NativeSyntheticEvent, ImageErrorEventData } from 'react-native';
+import { Padding, FontSize, Colors } from '../Common/Styles'
+import { ContactInfo } from '../Common/Types'
+import Favorite from "../Assets/favorite.svg"
+import Unknown from '../Assets/unknown.svg'
 
 // Component style. 
 const styles = StyleSheet.create({
@@ -29,31 +31,87 @@ const styles = StyleSheet.create({
         paddingHorizontal: Padding.medium
     },
 
+    userInfo: {
+        flexDirection: 'row',
+        marginLeft: Padding.small,
+        alignItems: 'center',
+    },
+
     userName: {
         fontSize: FontSize.large,
-        color: Colors.dim
+        color: Colors.dim,
     },
 
     userCompany: {
         fontSize: FontSize.medium,
-        color: Colors.dark
+        color: Colors.dark,
+        alignSelf: 'flex-start',
+        paddingLeft: Padding.massive
+    },
+
+    favIcon: {
+        marginRight: Padding.extraSmall,
+        opacity: 1
+    },
+
+    favIconHide: {
+        opacity: 0
     }
 });
 
-type ContactProps = { info: ContactInfo }
-
-const Contact = (props: ContactProps) => (
-    <View style={styles.container}>
+// User image component. 
+type ImageProps = { source : string | undefined, onErrorCbk: (error: NativeSyntheticEvent<ImageErrorEventData>) => void}
+const UserIcon = ({ source, onErrorCbk } : ImageProps ) => {
+    return (     
         <Image
             style={styles.userIcon}
-            source={{ uri: props.info.smallImage }}
+            source={{ uri: source }}
+            onError={onErrorCbk}
         >
         </Image>
-        <View style={styles.userData}>
-            <Text style={styles.userName}>{props.info.name}</Text>
-            <Text style={styles.userCompany}>{props.info.companyName}</Text>
-        </View>
-    </View>
-);
+    )
+}
+
+// Contact component. 
+type ContactProps = { info: ContactInfo }; 
+type ContactState = { failed: boolean }
+class Contact extends React.Component<ContactProps, ContactState>{
+    constructor(props: ContactProps) {
+        super(props); 
+        this.state = {
+            failed: false
+        }; 
+    }
+
+    render() {
+        // Hide Favorite component if the user is not favorite.
+        let favStyle = this.props.info.isFavorite ? styles.favIcon : [styles.favIcon, styles.favIconHide]; 
+        let user = this.state.failed ? 
+            <Unknown width={70} height={70} /> : 
+            <UserIcon source={this.props.info.smallImage} onErrorCbk={this.handleOnError.bind(this)} />; 
+
+        return (
+            <View style={styles.container}>
+                { user }
+                <View style={styles.userData}>
+                    <View style={styles.userInfo}>
+                        <Favorite style={favStyle} width={FontSize.medium} height={FontSize.medium} />
+                        <Text style={styles.userName}>{this.props.info.name}</Text>
+                    </View>
+                    <Text style={styles.userCompany}>{this.props.info.companyName}</Text>
+                </View>
+            </View>
+        ); 
+    }
+
+    handleOnError = (e : NativeSyntheticEvent<ImageErrorEventData>) => {
+        console.log("Error loading image for: " + this.props.info.name); 
+        
+        // Load backup image. 
+        this.setState({
+            failed: true
+        });
+    }
+}
 
 export default Contact;
