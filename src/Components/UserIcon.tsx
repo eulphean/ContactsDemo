@@ -9,7 +9,6 @@ import React from 'react';
 import { StyleSheet, View, Image, NativeSyntheticEvent, ImageErrorEventData } from 'react-native';
 import { ImageSize } from '../Common/Styles'
 import Unknown from '../Assets/unknown.svg'
-import { LinearGradient } from 'react-native-svg';
 
 // Component style. 
 const styles = StyleSheet.create({

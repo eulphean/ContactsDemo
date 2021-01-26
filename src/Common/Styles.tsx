@@ -10,7 +10,8 @@ export const Colors  = {
     dim: 'dimgray',
     grey: 'grey',
     light: '#e9e9e9',
-    smoke: '#c5c5c5'
+    smoke: '#c5c5c5',
+    sun: '#f9f9f8'
 };
 
 export const FontSize = {
@@ -32,6 +33,8 @@ export const Padding = {
 };
 
 export const ImageSize = {
+    verySmall: 20,
+    extraSmall: 30,
     small: 50,
     medium: 70,
     large: 90,
