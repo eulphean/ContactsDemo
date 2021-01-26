@@ -7,103 +7,16 @@
 
 import React from 'react';
 import { StyleSheet, FlatList, View, Text } from 'react-native';
-import { ContactDetailsScreenProps, ContactInfo } from '../Common/Types'
-import { Padding, Colors, FontSize } from '../Common/Styles'
-import { UserIcon, UserIconSize } from './UserIcon'
+import { ContactDetailsScreenProps, ContactInfo, ListItem, ListData } from '../Common/Types'
 import Seperator from './Seperator'
-import * as _ from 'lodash'
+import ContactDetail from './ContactDetail'
 
 // Component style. 
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1
-  },
-
-  userInfo: {
-      alignItems: 'center',
-      paddingTop: Padding.large,
-      paddingBottom: Padding.large
-  },
-
-  userName: {
-    fontSize: FontSize.extraMassive,
-    color: Colors.dim,
-    paddingTop: Padding.medium
-  },
-
-  userCompany: {
-    fontSize: FontSize.large,
-    color: Colors.dark,
-  },
-
-  seperatorView: {
-    paddingTop: Padding.extraLarge
-  },
-
-  infoContainer: {
-    paddingTop: Padding.extraLarge,
-    paddingBottom: Padding.medium,
-    paddingHorizontal: Padding.medium
-  },
-
-  info: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      paddingBottom: Padding.small
-  },
-
-  infoText: {
-    fontSize: FontSize.large,
-    color: Colors.dim
-  },
-
-  topLabel: {
-    fontSize: FontSize.large,
-    color: Colors.smoke,
-  }
-});
-
-// Data type for the list. 
-type ListData = {
-    name?: string,
-    companyName?: string,
-    largeImgUrl?: string,
-    label?: string, 
-    info?: string,
-    isPhoneNum?: boolean
-}
-
-type ListItem = {
-    id: string, 
-    data: ListData
-}
-
-// Info component
-type ContactDetailProps = { listData: ListItem }
-const ContactDetail = (props: ContactDetailProps) => {
-    let topLabel = props.listData.data.isPhoneNum ? 'PHONE:' : props.listData.data.label;
-    let sideLabel = props.listData.data.isPhoneNum ? <Text style={styles.topLabel}>{props.listData.data.label}</Text> : <></> as JSX.Element; 
-    let userCompany = props.listData.data.companyName ? <Text style={styles.userCompany}>{props.listData.data.companyName}</Text> : <></> as JSX.Element; 
-    let infoComp = props.listData.data.name ? 
-    (
-        <View style={styles.userInfo}>
-            <UserIcon size={UserIconSize.Large} source={props.listData.data.largeImgUrl} name={props.listData.data.name} />
-            <Text style={styles.userName}>{props.listData.data.name}</Text>
-            {userCompany}
-        </View>
-    ) : 
-    (  
-        <View style={styles.infoContainer}> 
-            <Text style={styles.topLabel}>{topLabel}</Text>
-            <View style={styles.info}>
-                <Text style={styles.infoText}>{props.listData.data.info}</Text>
-                {sideLabel}
-            </View>
-        </View>
-    ); 
-    
-    return infoComp; 
-};
+    container: { 
+      flex: 1
+    }
+  });
 
 // ContactDetailView types. 
 type ContactDetailViewProps = { navProps: ContactDetailsScreenProps }

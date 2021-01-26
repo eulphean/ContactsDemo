@@ -36,3 +36,18 @@ export type ContactInfo = {
   isFavorite?: boolean
   id: string
 }
+
+// Data type for the list. 
+export type ListData = {
+  name?: string,
+  companyName?: string,
+  largeImgUrl?: string,
+  label?: string, 
+  info?: string,
+  isPhoneNum?: boolean
+}
+
+export type ListItem = {
+  id: string, 
+  data: ListData
+}
