@@ -6,10 +6,8 @@
 */
 
 import React from 'react';
-import { BaseRouter, NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Text } from 'react-native'
-import * as _ from 'lodash';
 
 import  { RootStackParamList } from '../Common/Types'
 import { ContactsScreen, }  from './ContactListView'; 

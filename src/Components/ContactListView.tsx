@@ -90,6 +90,7 @@ export class ContactListView extends React.Component<ContactListViewProps, Conta
                     }; 
                     return a; 
                 })
+                .orderBy('name', 'asc')
                 .partition((info) => {return info.isFavorite})
                 .value();
 
