@@ -2,15 +2,15 @@
     File: App.tsx
     Author: Amay Kataria
     Date: 01/23/2021
-    Description: Root application component, which is the entry point for this application.
+    Description: Root component, which is the entry point for this application.
 */
 
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
-import  { RootStackParamList } from '../Common/Types'
-import { ContactsScreen, }  from './ContactListView'; 
+import  { ContactInfo, RootStackParamList } from '../Common/Types'
+import { ContactsScreen, ContactListView }  from './ContactListView'; 
 import { ContactDetailsScreen } from './ContactDetailView';
 import NavigationHeader from './NavigationHeader'
 import { Colors } from '../Common/Styles'
@@ -19,28 +19,42 @@ import { Colors } from '../Common/Styles'
 const RootStack = createStackNavigator<RootStackParamList>();
 
 const App = () => {
+  let appRef = React.createRef<ContactListView>(); 
   return (
     <NavigationContainer>
       <RootStack.Navigator initialRouteName="Contacts">
         <RootStack.Screen 
           name="Contacts" 
           component={ContactsScreen}
-          screenOptions={{
+          options={{
             headerStyle: {
               backgroundColor: Colors.sun
             }
           }}
+          initialParams={
+            {
+              contactsRef: appRef
+            }
+          }
         />
+
         <RootStack.Screen 
           name="Details" 
           component={ContactDetailsScreen}
           options={ ({ route }) => ({ 
             title: '',
-            headerRight: () => <NavigationHeader isFavorite={route.params.contactInfo.isFavorite} />})}
+            headerStyle: {
+              backgroundColor: Colors.sun
+            },
+            headerRight: () => <NavigationHeader info={route.params.contactInfo} handlePress={ handleOnPress.bind(this) }/>})}
         />
       </RootStack.Navigator>
     </NavigationContainer>
   ); 
+
+  function handleOnPress(newInfo: ContactInfo) {
+    appRef.current.updateState(newInfo);
+  }
 }
 
 export default App;

@@ -1,5 +1,5 @@
 /**
- *  File: ConactDetailView.tsx
+    File: ConactDetailView.tsx
     Author: Amay Kataria
     Date: 01/23/2021
     Description: Shows details for a specific contact. 
@@ -21,8 +21,8 @@ const styles = StyleSheet.create({
 // ContactDetailView types. 
 type ContactDetailViewProps = { navProps: ContactDetailsScreenProps }
 type ContactDetailViewState = { info : ContactInfo }
-// Component class. 
 
+// Component class. 
 export class ContactDetailView extends React.Component<ContactDetailViewProps, ContactDetailViewState>  {
     // Stores the items that can be rendered for this contact. 
     listData: Array<ListItem>;
@@ -55,6 +55,7 @@ export class ContactDetailView extends React.Component<ContactDetailViewProps, C
         let data: Array<ListItem> = []; 
         let idx: number = 0; 
 
+        // Image and user info. 
         if (info.name) {
             data.push({
                 id: idx.toString(),

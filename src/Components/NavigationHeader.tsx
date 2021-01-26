@@ -1,3 +1,10 @@
+/*
+    File: NavigationHeader.tsx
+    Author: Amay Kataria
+    Date: 01/23/2021
+    Description: Custom header for the navigation bar.
+*/
+
 import React from 'react'
 import {StyleSheet, GestureResponderEvent } from 'react-native'
 import { TouchableHighlight } from 'react-native-gesture-handler';
@@ -5,9 +12,11 @@ import Favorite from '../Assets/favorite.svg'
 import NotFavorite from '../Assets/notfavorite.svg'
 
 import { ImageSize, Padding, Colors } from '../Common/Styles';
+import { ContactInfo } from '../Common/Types';
 
 type NavigationHeaderProps = {
-    isFavorite: boolean | undefined
+    info: ContactInfo,
+    handlePress: (newInfo: ContactInfo) => void
 }
 
 type NavigationHeaderState = {
@@ -25,8 +34,8 @@ class NavigationHeader extends React.Component<NavigationHeaderProps, Navigation
     constructor(props: NavigationHeaderProps) {
         super(props);
         this.state = {
-            isActive : this.props.isFavorite
-        }
+            isActive: this.props.info.isFavorite
+        }; 
     }
 
     render() {
@@ -44,7 +53,12 @@ class NavigationHeader extends React.Component<NavigationHeaderProps, Navigation
     }
 
     handleOnPress(e: GestureResponderEvent) {
-        console.log('It was pressed');
+        this.setState({
+            isActive: !this.state.isActive
+        }); 
+        let newInfo = this.props.info; 
+        newInfo.isFavorite = !newInfo.isFavorite; 
+        this.props.handlePress(newInfo); 
     }
 }
 

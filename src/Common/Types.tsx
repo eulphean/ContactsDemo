@@ -2,14 +2,15 @@
  *  File: CommonType.tsx
     Author: Amay Kataria
     Date: 01/23/2021
-    Description: Object types shared across the entire app. 
+    Description: Types shared across the entire app. 
 */
 
 import { StackScreenProps } from '@react-navigation/stack'
+import { ContactListView } from '../Components/ContactListView';
 
 // Navigator types. 
 export type RootStackParamList = {
-    Contacts: { },
+    Contacts: { contactsRef: React.Ref<ContactListView> },
     Details: { contactInfo: ContactInfo }
 }
 export type ContactsScreenProps = StackScreenProps<RootStackParamList, 'Contacts'>;

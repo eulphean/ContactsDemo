@@ -2,7 +2,7 @@
  *  File: Conact.tsx
     Author: Amay Kataria
     Date: 01/23/2021
-    Description: Describes the component. 
+    Description: Shows each row in the contact list. 
 */
 
 import React from 'react';
