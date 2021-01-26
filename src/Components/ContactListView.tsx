@@ -10,28 +10,16 @@ import { SectionList, StyleSheet, Text, View } from 'react-native';
 import { ContactsScreenProps, ContactInfo, ContactListItem } from '../Common/Types'
 import { Colors, Padding, FontSize } from '../Common/Styles'
 import Contact from './Contact'
+import Seperator from './Seperator'
 import * as _ from 'lodash'
 
 // Component styles. 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'row',
-        padding: Padding.medium
-    },
-
     header: {
         padding: Padding.extraSmall,
         fontSize: FontSize.medium,
         color: Colors.dim,
         backgroundColor: Colors.light
-    },
-
-
-    separator: {
-        borderBottomColor: Colors.smoke,
-        borderBottomWidth: 0.5,
-        marginHorizontal: Padding.medium
     }
 });
 
@@ -72,16 +60,10 @@ export class ContactListView extends React.Component<ContactListViewProps, Conta
                 keyExtractor={(item, index) => 'key: ' + index}
                 renderItem={({ item }) => <Contact info={item} navigator={this.props.navProps} />}
                 renderSectionHeader={({ section: { title } }) => <SectionHeader header={title} />}
-                ItemSeparatorComponent={() => <View style={styles.separator}/>}
+                ItemSeparatorComponent={() => <Seperator applyHorizontalPadding={true} />}
                 stickySectionHeadersEnabled={false}
             />
         ); 
-    }
-
-    // Send the information about the contact from here
-    onPress = () => {
-   
-        // When navigation, send the selected Contact properties to the next contact. 
     }
 
     fetchContacts() {
@@ -103,7 +85,8 @@ export class ContactListView extends React.Component<ContactListViewProps, Conta
                         phoneHome: e.phone.home,
                         phoneMobile: e.phone.mobile,
                         smallImage: e.smallImageURL,
-                        largeImage: e.largeImageURL
+                        largeImage: e.largeImageURL,
+                        id: e.id
                     }; 
                     return a; 
                 })

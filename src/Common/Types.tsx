@@ -10,7 +10,7 @@ import { StackScreenProps } from '@react-navigation/stack'
 // Navigator types. 
 export type RootStackParamList = {
     Contacts: { },
-    Details: { name: string }
+    Details: { contactInfo: ContactInfo }
 }
 export type ContactsScreenProps = StackScreenProps<RootStackParamList, 'Contacts'>;
 export type ContactDetailsScreenProps = StackScreenProps<RootStackParamList, 'Details'>;
@@ -34,4 +34,5 @@ export type ContactInfo = {
   smallImage?: string,
   largeImage?: string,
   isFavorite?: boolean
+  id: string
 }

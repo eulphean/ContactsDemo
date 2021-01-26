@@ -17,7 +17,9 @@ export const FontSize = {
     small: 10,
     medium: 15,
     large: 20,
-    extraLarge: 25
+    extraLarge: 25,
+    massive: 30,
+    extraMassive: 35
 };
 
 export const Padding = {
@@ -33,5 +35,5 @@ export const ImageSize = {
     small: 50,
     medium: 70,
     large: 90,
-    extraLarge: 110
+    extraLarge: 150
 }

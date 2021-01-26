@@ -6,33 +6,231 @@
 */
 
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import { ContactDetailsScreenProps } from '../Common/Types'
+import { StyleSheet, FlatList, View, Text } from 'react-native';
+import { ContactDetailsScreenProps, ContactInfo } from '../Common/Types'
+import { Padding, Colors, FontSize } from '../Common/Styles'
+import { UserIcon, UserIconSize } from './UserIcon'
+import Seperator from './Seperator'
+import * as _ from 'lodash'
 
 // Component style. 
 const styles = StyleSheet.create({
-  body: { 
+  container: { 
+    flex: 1
+  },
 
+  userInfo: {
+      alignItems: 'center',
+      paddingTop: Padding.large,
+      paddingBottom: Padding.large
+  },
+
+  userName: {
+    fontSize: FontSize.extraMassive,
+    color: Colors.dim,
+    paddingTop: Padding.medium
+  },
+
+  userCompany: {
+    fontSize: FontSize.large,
+    color: Colors.dark,
+  },
+
+  seperatorView: {
+    paddingTop: Padding.extraLarge
+  },
+
+  infoContainer: {
+    paddingTop: Padding.extraLarge,
+    paddingBottom: Padding.medium,
+    paddingHorizontal: Padding.medium
+  },
+
+  info: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      paddingBottom: Padding.small
+  },
+
+  infoText: {
+    fontSize: FontSize.large,
+    color: Colors.dim
+  },
+
+  topLabel: {
+    fontSize: FontSize.large,
+    color: Colors.smoke,
   }
 });
 
-// ContactDetailView types. 
-export type ContactDetailViewProps = { navProps: ContactDetailsScreenProps }
-export type ContactDetailViewState = { }
+// Data type for the list. 
+type ListData = {
+    name?: string,
+    companyName?: string,
+    largeImgUrl?: string,
+    label?: string, 
+    info?: string,
+    isPhoneNum?: boolean
+}
 
+type ListItem = {
+    id: string, 
+    data: ListData
+}
+
+// Info component
+type ContactDetailProps = { listData: ListItem }
+const ContactDetail = (props: ContactDetailProps) => {
+    let topLabel = props.listData.data.isPhoneNum ? 'PHONE:' : props.listData.data.label;
+    let sideLabel = props.listData.data.isPhoneNum ? <Text style={styles.topLabel}>{props.listData.data.label}</Text> : <></> as JSX.Element; 
+    let userCompany = props.listData.data.companyName ? <Text style={styles.userCompany}>{props.listData.data.companyName}</Text> : <></> as JSX.Element; 
+    let infoComp = props.listData.data.name ? 
+    (
+        <View style={styles.userInfo}>
+            <UserIcon size={UserIconSize.Large} source={props.listData.data.largeImgUrl} name={props.listData.data.name} />
+            <Text style={styles.userName}>{props.listData.data.name}</Text>
+            {userCompany}
+        </View>
+    ) : 
+    (  
+        <View style={styles.infoContainer}> 
+            <Text style={styles.topLabel}>{topLabel}</Text>
+            <View style={styles.info}>
+                <Text style={styles.infoText}>{props.listData.data.info}</Text>
+                {sideLabel}
+            </View>
+        </View>
+    ); 
+    
+    return infoComp; 
+};
+
+// ContactDetailView types. 
+type ContactDetailViewProps = { navProps: ContactDetailsScreenProps }
+type ContactDetailViewState = { info : ContactInfo }
 // Component class. 
+
 export class ContactDetailView extends React.Component<ContactDetailViewProps, ContactDetailViewState>  {
+    // Stores the items that can be rendered for this contact. 
+    listData: Array<ListItem>;
+
     constructor(props: ContactDetailViewProps) {
         super(props); 
-        // Define the state. 
+        let contactInfo = this.props.navProps.route.params.contactInfo;    
+        this.listData = this.prepareListData(contactInfo); 
+        this.state = {
+            info: contactInfo
+        }
     }
 
     render() {
         return (
-            <View style={styles.body}>
-                <Text>I am Contact Detail View: {this.props.navProps.route.params.name}</Text>
+            <View style={styles.container}>
+                <FlatList   
+                    data={this.listData}
+                    renderItem={({ item }) => <ContactDetail listData={item} /> }
+                    keyExtractor={item => 'key: ' + item.id}
+                    ItemSeparatorComponent={() => <Seperator applyHorizontalPadding={true}/>}
+                >
+                </FlatList>
             </View>
         ); 
+    }
+
+    // Check before adding any new property in the list to be rendered. 
+    prepareListData(info: ContactInfo): Array<ListItem> {
+        let data: Array<ListItem> = []; 
+        let idx: number = 0; 
+
+        if (info.name) {
+            data.push({
+                id: idx.toString(),
+                data: {
+                    name: info.name,
+                    companyName: info.companyName,
+                    largeImgUrl: info.largeImage
+                }
+            });
+            idx++; 
+        }
+
+        // Phone Home
+        if (info.phoneHome) {
+            data.push({
+                id: idx.toString(),
+                data: {
+                    label: 'Home',
+                    info: info.phoneHome,
+                    isPhoneNum: true
+                }
+            });
+            idx++;
+        }
+
+        // Phone Mobile
+        if (info.phoneMobile) {
+            data.push({
+                id: idx.toString(),
+                data: {
+                    label: 'Mobile',
+                    info: info.phoneMobile,
+                    isPhoneNum: true
+                }
+            });
+            idx++;
+        }
+
+        // Phone Work
+        if (info.phoneWork) {
+            data.push({
+                id: idx.toString(),
+                data: {
+                    label: 'Work',
+                    info: info.phoneWork,
+                    isPhoneNum: true
+                }
+            });
+            idx++;
+        }
+
+        // Address
+        if (info.address) {
+            data.push({
+                id: idx.toString(),
+                data: {
+                    label: 'ADDRESS:',
+                    info: info.address
+                }
+            });
+            idx++; 
+        }
+
+        // Birthday
+        if (info.birthday) {
+            let b = new Date(info.birthday); 
+            data.push({
+                id: idx.toString(),
+                data: {
+                    label: 'BIRTHDATE:',
+                    info: b.toLocaleString('EN-US', { year: 'numeric', month: 'long', day: 'numeric'})
+                }
+            });
+            idx++; 
+        }
+
+        // Email
+        if (info.email) {
+            data.push({
+                id: idx.toString(),
+                data: {
+                    label: 'EMAIL:',
+                    info: info.email
+                }
+            }); 
+            idx++; 
+        }
+
+        return data; 
     }
 }
 

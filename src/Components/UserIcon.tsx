@@ -9,21 +9,32 @@ import React from 'react';
 import { StyleSheet, View, Image, NativeSyntheticEvent, ImageErrorEventData } from 'react-native';
 import { ImageSize } from '../Common/Styles'
 import Unknown from '../Assets/unknown.svg'
+import { LinearGradient } from 'react-native-svg';
 
 // Component style. 
 const styles = StyleSheet.create({
-    userIcon: {
+    userIconMedium: {
         height: ImageSize.medium,
         width: ImageSize.medium
     },
+
+    userIconLarge: {
+        height: ImageSize.extraLarge,
+        width: ImageSize.extraLarge
+    }
 });
 
+export enum UserIconSize {
+    Medium,
+    Large
+}; 
+
 // ContactDetailView types. 
-export type UserIconProps = { source: string | undefined, name: string | undefined} 
+export type UserIconProps = { size: UserIconSize, source: string | undefined, name: string | undefined} 
 export type UserIconState = { failed: boolean }
 
 // Component class. 
-class UserIcon extends React.Component<UserIconProps, UserIconState>  {
+export class UserIcon extends React.Component<UserIconProps, UserIconState>  {
     constructor(props: UserIconProps) {
         super(props); 
         // Initial state. 
@@ -33,13 +44,15 @@ class UserIcon extends React.Component<UserIconProps, UserIconState>  {
     }
 
     render() {
+        let svgSize = this.props.size === UserIconSize.Medium ? ImageSize.medium : ImageSize.extraLarge; 
+        let imgStyle = this.props.size === UserIconSize.Medium ? styles.userIconMedium : styles.userIconLarge; 
         let user = this.state.failed ? 
             <Unknown 
-                width={ ImageSize.medium } 
-                height={ ImageSize.medium } 
+                width={ svgSize } 
+                height={ svgSize } 
             /> : 
             <Image
-                style={styles.userIcon}
+                style={imgStyle}
                 source={{ uri: this.props.source }}
                 onError={this.handleOnError.bind(this)}
             />
@@ -57,5 +70,3 @@ class UserIcon extends React.Component<UserIconProps, UserIconState>  {
         });
     }
 }
-
-export default UserIcon;
