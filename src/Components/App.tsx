@@ -6,6 +6,7 @@
 */
 
 import React from 'react';
+import {  Text } from 'react-native'; 
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -13,10 +14,16 @@ import  { ContactInfo, RootStackParamList } from '../Common/Types'
 import { ContactsScreen, ContactListView }  from './ContactListView'; 
 import { ContactDetailsScreen } from './ContactDetailView';
 import NavigationHeader from './NavigationHeader'
-import { Colors } from '../Common/Styles'
+import { Colors, FontSize } from '../Common/Styles'
 
 // Initialize stack navigator. 
 const RootStack = createStackNavigator<RootStackParamList>();
+
+const Header =  () => {
+  return (<Text style={{flex: 1, textAlign: 'center', alignItems: 'center', color: Colors.dim, fontSize: FontSize.large }}>
+    Contacts
+  </Text>);
+}
 
 const App = () => {
   let appRef = React.createRef<ContactListView>(); 
@@ -26,10 +33,11 @@ const App = () => {
         <RootStack.Screen 
           name="Contacts" 
           options={{
+            title: 'Contacts',
             headerStyle: {
               backgroundColor: Colors.sun
-            }
-          }}
+            },
+            headerTitle: props => <Header /> }}
         >
           {
             // Use render method so we can create a clean ref on the object. 

@@ -216,4 +216,9 @@ task copyDownloadableDepsToLibs(type: Copy) {
     into 'libs'
 }
 
+task wrapper(type: Wrapper){
+    gradleVersion = '6.2'
+}
+
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)
+
