@@ -25,18 +25,17 @@ const App = () => {
       <RootStack.Navigator initialRouteName="Contacts">
         <RootStack.Screen 
           name="Contacts" 
-          component={ContactsScreen}
           options={{
             headerStyle: {
               backgroundColor: Colors.sun
             }
           }}
-          initialParams={
-            {
-              contactsRef: appRef
-            }
+        >
+          {
+            // Use render method so we can create a clean ref on the object. 
+            props => <ContactListView ref={appRef} navProps={props} />
           }
-        />
+        </RootStack.Screen>
 
         <RootStack.Screen 
           name="Details" 

@@ -58,7 +58,7 @@ export class ContactListView extends React.Component<ContactListViewProps, Conta
         return (
                 <SectionList
                 sections={this.state.partitionList}
-                keyExtractor={(item, index) => 'key: ' + index}
+                keyExtractor={(item, index) => 'key: ' + item.id}
                 renderItem={({ item }) => <Contact info={item} navigator={this.props.navProps} />}
                 renderSectionHeader={({ section: { title } }) => <SectionHeader header={title} />}
                 ItemSeparatorComponent={() => <Seperator applyHorizontalPadding={true} />}
